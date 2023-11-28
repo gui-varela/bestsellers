@@ -1,31 +1,64 @@
 // Import puppeteer
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer'
 
-(async () => {
-	// Launch the browser
-	const browser = await puppeteer.launch({ headless: false });
+export const allProducts = (async () => {
 
-	// Create a page
+	const browser = await puppeteer.launch({ headless: false })
 	const page = await browser.newPage();
+	await page.goto('https://www.amazon.com.br/bestsellers')
 
-	// Go to your site
-	await page.goto('https://www.amazon.com.br/bestsellers');
-
+	// Preferi deixar este reload porque a Amazon não permite fazer muitas requisições em sequência
 	await page.reload()
 
-	// Query for an element handle.
-	const element = await page.waitForSelector('.celwidget');
+	const categoryLinks = await page.$$eval('#zg_left_col2 a', element => element.map(link => {
+		const linkInfos = {
+			name: link.innerText,
+			link: link.href
+		}
 
-	const titles = element 
-		? await page.$$eval('.a-carousel-heading', element => element.map(title => title.innerText)) 
-		: "Sem título"
+		return linkInfos
+	}))
 
-	// Do something with element...
-	console.log(titles)
+	let sections = []
 
-	await element.dispose();
+	for (const link of categoryLinks) {
+		await page.goto(link.link)
+		await page.reload()
+		await page.waitForSelector('.p13n-desktop-grid')
 
+		let i = 0
+		let products = []
 
-	// Close browser.
-	await browser.close();
+		const totalProductsInPage = await page.$$eval('#gridItemRoot', element => element)
+
+		while (i < (totalProductsInPage.length >= 3 ? 3 : totalProductsInPage.length)) {
+			const productName = await page.$eval(`#p13n-asin-index-${i} .p13n-sc-uncoverable-faceout span`, element => element.innerText)
+			const productGrade = await page.$eval(`#p13n-asin-index-${i} .p13n-sc-uncoverable-faceout .a-row i.a-icon span`, element => element.innerText)
+			const productPrice = await page.$eval(`#p13n-asin-index-${i} .p13n-sc-uncoverable-faceout .a-row .a-size-base span`, element => element.innerText)
+
+			const product = {
+				position: i + 1,
+				name: productName,
+				grade: productGrade,
+				price: productPrice,
+				category: link.name
+			}
+
+			products.push(product)
+
+			i++
+		}
+
+		const section = {
+			name: link.name,
+			products,
+		}
+
+		sections.push(section)
+		console.log(section)
+	};
+
+	await browser.close()
+
+	return sections
 })();
