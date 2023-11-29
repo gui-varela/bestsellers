@@ -4,7 +4,7 @@ service: bestsellers
 frameworkVersion: '3'
 
 custom:
-  tableName: 'users-table-${sls:stage}'
+  tableName: 'products-table-${sls:stage}'
 
 provider:
   name: aws
@@ -21,9 +21,9 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
+            - Fn::GetAtt: [ ProductsTable, Arn ]
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    PRODUCTS_TABLE: ${self:custom.tableName}
 
 functions:
   api:
@@ -33,14 +33,14 @@ functions:
 
 resources:
   Resources:
-    UsersTable:
+    ProductsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: userId
+          - AttributeName: productId
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
+          - AttributeName: productId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
