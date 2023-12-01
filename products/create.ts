@@ -7,28 +7,35 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+interface CreateProductData {
+    id: string
+    position: number
+    name: string,
+    grade: number,
+    price: number,
+    category: string
+}
+
+interface CreateManyProductsData {
+    name: string,
+    products: CreateProductData[],
+}
+
 module.exports.create = (event: { body: string; }, context: any, callback: CallableFunction) => {
-    const timestamp = new Date().getTime();
-    const data = JSON.parse(event.body);
-    if (typeof data.name !== 'string') {
-        console.error('Validation Failed');
-        callback(null, {
-            statusCode: 400,
-            headers: { 'Content-Type': 'text/plain' },
-            body: 'wrong type.',
-        });
-        return;
-    }
+    const data: CreateManyProductsData[] = JSON.parse(event.body);
+    // if (typeof data.name !== 'arr') {
+    //     console.error('Validation Failed');
+    //     callback(null, {
+    //         statusCode: 400,
+    //         headers: { 'Content-Type': 'text/plain' },
+    //         body: 'wrong type.',
+    //     });
+    //     return;
+    // }
 
     const params = {
         TableName: process.env.DYNAMODB_TABLE,
-        Item: {
-            id: data.id,
-            name: data.name,
-            checked: false,
-            createdAt: timestamp,
-            updatedAt: timestamp,
-        },
+        Item: data
     };
 
     // write the todo to the database
