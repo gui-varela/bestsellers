@@ -1,5 +1,8 @@
 'use strict'
 
+import { Context } from "aws-sdk/clients/autoscaling";
+import { Event } from "aws-sdk/clients/s3";
+
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
