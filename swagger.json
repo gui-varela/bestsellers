@@ -7,17 +7,8 @@
   },
   "servers": [
     {
-<<<<<<< HEAD
       "url": "https://p6qgkmc9t1.execute-api.us-east-1.amazonaws.com",
       "description": "Optional server description, e.g. Main (production) server"
-=======
-      "url": "http://api.example.com/v1",
-      "description": "Optional server description, e.g. Main (production) server"
-    },
-    {
-      "url": "http://staging-api.example.com",
-      "description": "Optional server description, e.g. Internal staging server for testing"
->>>>>>> 7b4e8d2 (Cria versão inicial da documentação da aplicação)
     }
   ],
   "paths": {
@@ -60,18 +51,11 @@
             "content": {
               "application/json": {
                 "schema": {
-<<<<<<< HEAD
                   "$ref": "#/components/schemas/RequestProduct"
                 },
                 "example": {
                   "id": "abcd1234",
                   "name": "Calça de Moletom"
-=======
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
->>>>>>> 7b4e8d2 (Cria versão inicial da documentação da aplicação)
                 }
               }
             }
@@ -109,7 +93,6 @@
         }
       }
     }
-<<<<<<< HEAD
   },
   "components": {
     "schemas": {
@@ -127,7 +110,5 @@
         }
       }
     }
-=======
->>>>>>> 7b4e8d2 (Cria versão inicial da documentação da aplicação)
   }
 }
