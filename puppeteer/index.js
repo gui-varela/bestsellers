@@ -42,7 +42,7 @@ export const allProducts = (async () => {
                 if (!price) {
                     return "Indisponível"
                 }
-                return Number.parseFloat(price.innerText)
+                return price.innerText
             }, counter)
 
             const product = {
@@ -65,6 +65,7 @@ export const allProducts = (async () => {
 
         sections.push(section)
         console.log(section)
+        console.log(",")
     };
 
     await browser.close()
