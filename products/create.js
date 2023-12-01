@@ -7,7 +7,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.create = (event, context, callback) => {
     const timestamp = new Date().getTime();
     const data = JSON.parse(event.body);
-    if (typeof data.text !== 'string') {
+    if (typeof data.name !== 'string') {
         console.error('Validation Failed');
         callback(null, {
             statusCode: 400,
@@ -21,7 +21,7 @@ module.exports.create = (event, context, callback) => {
         TableName: process.env.DYNAMODB_TABLE,
         Item: {
             id: data.id,
-            text: data.text,
+            name: data.name,
             checked: false,
             createdAt: timestamp,
             updatedAt: timestamp,
