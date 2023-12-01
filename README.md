@@ -66,7 +66,7 @@ _Note_: In current form, after deployment, your API is public and can be invoked
 Run above command to get the documentation
 
 ```bash
-node swagger.js
+ts-node swagger.js
 ```
 
 
