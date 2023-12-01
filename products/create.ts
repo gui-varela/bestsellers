@@ -12,7 +12,7 @@ interface CreateProductData {
     position: number
     name: string,
     grade: number,
-    price: number,
+    price: string,
     category: string
 }
 
