@@ -1,8 +1,9 @@
 import puppeteer from 'puppeteer'
+import v4 from "uuid"
 
 export const allProducts = (async () => {
 
-    const browser = await puppeteer.launch({ headless: false })
+    const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] })
     const page = await browser.newPage();
     await page.goto('https://www.amazon.com.br/bestsellers')
 
@@ -41,10 +42,11 @@ export const allProducts = (async () => {
                 if (!price) {
                     return "Indisponível"
                 }
-                return Number.parseFloat(price.innerText)
+                return price.innerText
             }, counter)
 
             const product = {
+                id: v4(),
                 position: counter + 1,
                 name: productName,
                 grade: productGrade,
@@ -63,6 +65,7 @@ export const allProducts = (async () => {
 
         sections.push(section)
         console.log(section)
+        console.log(",")
     };
 
     await browser.close()
