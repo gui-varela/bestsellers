@@ -1,10 +1,13 @@
 'use strict';
 
+import { Context } from "aws-sdk/clients/autoscaling";
+import { Event } from "aws-sdk/clients/s3";
+
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.create = (event, context, callback) => {
+module.exports.create = (event: { body: string; }, context: any, callback: CallableFunction) => {
     const timestamp = new Date().getTime();
     const data = JSON.parse(event.body);
     if (typeof data.name !== 'string') {
@@ -29,7 +32,7 @@ module.exports.create = (event, context, callback) => {
     };
 
     // write the todo to the database
-    dynamoDb.put(params, (error) => {
+    dynamoDb.put(params, (error: { statusCode: any; message: any; }) => {
         // handle potential errors
         if (error) {
             console.error(error);
