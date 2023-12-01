@@ -68,7 +68,13 @@ Run above command to get the documentation
 ```bash
 ts-node swagger.ts
 ```
+### Web Scraper
 
+Run above command to see the web scraper working in terminal
+
+```bash
+ts-node puppeteer/index.js
+```
 
 ### Invocation
 
