@@ -1,14 +1,16 @@
 org: guivarela
 app: bestsellers
 service: bestsellers
-frameworkVersion: '3'
-
-custom:
-  tableName: 'users-table-${sls:stage}'
+frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs18.x
+  lambdaHashingVersion: '20201221'
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${sls:stage}
+  httpApi:
+    cors: true
   iam:
     role:
       statements:
@@ -20,27 +22,57 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
-  environment:
-    USERS_TABLE: ${self:custom.tableName}
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
-  api:
-    handler: index.handler
+  create:
+    handler: products/create.create
+    events:  
+      - httpApi:
+          path: /products
+          method: post
+
+  list:
+    handler: products/list.list
     events:
-      - httpApi: '*'
+      - httpApi:
+          path: /products
+          method: get
+
+  get:
+    handler: products/get.get
+    events:
+      - httpApi:
+          path: /products/{id}
+          method: get
+
+  update:
+    handler: products/update.update
+    events:
+      - httpApi:
+          path: /products/{id}
+          method: put
+
+  delete:
+    handler: products/delete.delete
+    events:
+      - httpApi:
+          path: /products/{id}
+          method: delete
 
 resources:
   Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
+    ProductsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: userId
+          -
+            AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
+          -
+            AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.tableName}
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}

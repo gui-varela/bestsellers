@@ -31,14 +31,17 @@ export const allProducts = (async () => {
 
         while (counter < (totalProductsInPage.length >= 3 ? 3 : totalProductsInPage.length)) {
             const productName = await page.$eval(`#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout span`, element => element.innerText)
-            const productGrade = await page.$eval(`#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout .a-row i.a-icon span`, element => element.innerText)
+            const productGrade = Number.parseFloat(await page.$eval(
+                `#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout .a-row i.a-icon span`,
+                element => element.innerText
+            ))
 
             const productPrice = await page.evaluate((counter) => {
                 const price = document.querySelector(`#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout .a-row .a-size-base span`)
                 if (!price) {
                     return "Indisponível"
                 }
-                return price.innerText
+                return Number.parseFloat(price.innerText)
             }, counter)
 
             const product = {
