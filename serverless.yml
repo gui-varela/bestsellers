@@ -3,6 +3,11 @@ app: bestsellers
 service: bestsellers
 frameworkVersion: "3"
 
+package:
+  exclude:
+    - node_modules/**
+    - .cache/**
+
 provider:
   name: aws
   runtime: nodejs18.x
