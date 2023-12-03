@@ -1,7 +1,22 @@
+import { serialNumberType } from 'aws-sdk/clients/iam'
 import puppeteer from 'puppeteer'
-import v4 from "uuid"
+import uuid from "uuid"
 
-export const allProducts = (async () => {
+interface Product {
+    id: string
+    position: number
+    name: string
+    grade: number
+    price: string
+    category: string
+}
+
+export interface ProductList {
+    name: string
+    products: Product[]
+}
+
+export const getProductSraper = async (): Promise<ProductList[]> => {
 
     const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] })
     const page = await browser.newPage();
@@ -38,7 +53,7 @@ export const allProducts = (async () => {
             ))
 
             const productPrice = await page.evaluate((counter) => {
-                const price = document.querySelector(`#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout .a-row .a-size-base span`)
+                const price: HTMLElement  | null = document.querySelector(`#p13n-asin-index-${counter} .p13n-sc-uncoverable-faceout .a-row .a-size-base span`)
                 if (!price) {
                     return "Indisponível"
                 }
@@ -46,7 +61,7 @@ export const allProducts = (async () => {
             }, counter)
 
             const product = {
-                id: v4(),
+                id: uuid.v4(),
                 position: counter + 1,
                 name: productName,
                 grade: productGrade,
@@ -65,10 +80,10 @@ export const allProducts = (async () => {
 
         sections.push(section)
         console.log(section)
-        console.log(",")
     };
 
     await browser.close()
 
+    console.log(sections)
     return sections
-})();
+};
