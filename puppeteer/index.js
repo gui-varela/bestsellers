@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 import v4 from "uuid"
 
-export const allProducts = (async () => {
+export const getAllProducts = (async () => {
 
     const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] })
     const page = await browser.newPage();
@@ -18,7 +18,7 @@ export const allProducts = (async () => {
         return linkInfos
     }))
 
-    let sections = []
+    let products = []
 
     for (const link of categoryLinks) {
         await page.goto(link.link)
@@ -26,7 +26,6 @@ export const allProducts = (async () => {
         await page.waitForSelector('.p13n-desktop-grid')
 
         let counter = 0
-        let products = []
 
         const totalProductsInPage = await page.$$eval('#gridItemRoot', element => element)
 
@@ -58,17 +57,11 @@ export const allProducts = (async () => {
             counter++
         }
 
-        const section = {
-            name: link.name,
-            products,
-        }
-
-        sections.push(section)
-        console.log(section)
+        console.log(products)
         console.log(",")
     };
 
     await browser.close()
 
-    return sections
+    return products
 })();
