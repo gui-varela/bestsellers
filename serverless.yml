@@ -10,7 +10,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs16.x
   lambdaHashingVersion: '20201221'
   environment:
     DYNAMODB_TABLE: ${self:service}-${sls:stage}
@@ -32,7 +32,7 @@ provider:
 functions:
   create:
     handler: products/create.create
-    events:  
+    events:
       - httpApi:
           path: /products
           method: post
@@ -57,7 +57,6 @@ functions:
       - httpApi:
           path: /products/{id}
           method: put
-
   delete:
     handler: products/delete.delete
     events:
