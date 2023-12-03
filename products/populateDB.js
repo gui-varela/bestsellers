@@ -3,11 +3,10 @@ const { create } = require('./create');
 
 module.exports.populateDB = async () => {
     try {
-        const allProducts = await getAllProducts();
+        const allProducts = await getAllProducts()
 
         if (!allProducts || allProducts.length === 0) {
-            console.error("Nenhum produto encontrado.");
-            return; 
+            throw new Error("Nenhum produto encontrado.")
         }
 
         for (const product of allProducts) {
@@ -18,16 +17,16 @@ module.exports.populateDB = async () => {
             await new Promise((resolve, reject) => {
                 create(event, (error, result) => {
                     if (error) {
-                        console.error(`Erro ao criar produto: ${error.message}`);
                         reject(error);
+                        throw new Error(`Erro ao criar produto: ${error.message}`)
                     } else {
-                        console.log(`Produto criado com sucesso: ${JSON.stringify(result.body)}`);
+                        console.log(`Produto criado com sucesso: ${JSON.stringify(result.body)}`)
                         resolve(result);
                     }
                 });
             });
         }
     } catch (error) {
-        throw new Error("Não foi possível popular o banco de dados.");
+        throw new Error(`Não foi possível popular o banco de dados. ${error}`);
     }
 };
