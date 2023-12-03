@@ -1,7 +1,6 @@
-import puppeteer from 'puppeteer'
-import v4 from "uuid"
+const puppeteer = require('puppeteer')
 
-export const getAllProducts = (async () => {
+module.exports.getAllProducts = (async () => {
 
     const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] })
     const page = await browser.newPage();
@@ -45,7 +44,7 @@ export const getAllProducts = (async () => {
             }, counter)
 
             const product = {
-                id: v4(),
+                id: `${Math.random()}`,
                 position: counter + 1,
                 name: productName,
                 grade: productGrade,
