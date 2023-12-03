@@ -51,12 +51,6 @@ functions:
           path: /products/{id}
           method: get
 
-  update:
-    handler: products/update.update
-    events:
-      - httpApi:
-          path: /products/{id}
-          method: put
   delete:
     handler: products/delete.delete
     events:
