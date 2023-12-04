@@ -1,130 +1,48 @@
-<!--
-title: 'Getting Started'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda, API Gateway and DynamoDB using the Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+Este template foi retirado do repositório de templates do Serverless Framework:
 
-> The companion blog post for this getting started example can be found here: https://www.serverless.com/blog/getting-started-with-serverless-framework
+- [serverless/examples repository](https://github.com/serverless/examples/)
+- Serverless Framework Node HTTP API on AWS
 
-# Serverless Framework Node HTTP API on AWS
+## Uso
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
-
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
-
-## Usage
-
-### Deployment
-
-```
-$ serverless deploy
-```
-
-After deploying, you should see output similar to:
+### Instalar dependências
 
 ```bash
-Serverless: Packaging service...
-Serverless: Excluding development dependencies...
-Serverless: Creating Stack...
-Serverless: Checking Stack create progress...
-........
-Serverless: Stack create finished...
-Serverless: Uploading CloudFormation file to S3...
-Serverless: Uploading artifacts...
-Serverless: Uploading service aws-node-http-api.zip file to S3 (711.23 KB)...
-Serverless: Validating template...
-Serverless: Updating Stack...
-Serverless: Checking Stack update progress...
-.................................
-Serverless: Stack update finished...
-Service Information
-service: serverless-http-api
-stage: dev
-region: us-east-1
-stack: serverless-http-api-dev
-resources: 12
-api keys:
-  None
-endpoints:
-  ANY - https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  api: serverless-http-api-dev-hello
-layers:
-  None
+npm i
 ```
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
+### Deploy
 
-### Documentation
+```bash
+serverless deploy
+```
 
-Run above command to get the documentation
+### Documentação
+
+Para acessar a documentação, rode o seguinte comando:
 
 ```bash
 ts-node swagger.ts
 ```
+
+Em seguida, basta abrir http://localhost:3000/api-docs para abrir no navegador
+
 ### Web Scraper
 
-Run above command to see the web scraper working in terminal
+⚠️ Adicione a linha abaixo no package.json antes de rodar o web scraper:
+
+```json
+"type": "module",
+```
+
+Rode o seguinte comando para rodar o web scraper
 
 ```bash
 ts-node puppeteer/index.js
 ```
 
-### Invocation
+Os produtos aparecerão no terminal prontos para serem usados.
 
-After successful deployment, you can call the created application via HTTP:
+### Populando o banco
 
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
-
-Which should result in response similar to the following (removed `input` content for brevity):
-
-```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
-  }
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v2.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
-
-
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
-
-```bash
-serverless plugin install -n serverless-offline
-```
-
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
-
-```
-serverless offline
-```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+Não foi possível criar uma maneira automatizada de popular o banco de dados. Por isso, é necessário rodar o web scraper, copiar cada produto do terminal e criar um por um (através de Postman/Insomnia ou pela documentação)
