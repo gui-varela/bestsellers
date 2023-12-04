@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://p6qgkmc9t1.execute-api.us-east-1.amazonaws.com",
+      "url": "https://u6i8wt2u55.execute-api.us-east-1.amazonaws.com",
       "description": "Optional server description, e.g. Main (production) server"
     }
   ],
@@ -101,11 +101,27 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Nome do produto"
+            "description": "ID do produto"
           },
           "name": {
             "type": "string",
             "description": "Nome do produto"
+          },
+          "position": {
+            "type": "number",
+            "description": "Posição do produto no ranking dos mais vendidos"
+          },
+          "grade": {
+            "type": "number",
+            "description": "Nota média das avaliações do produto"
+          },
+          "price": {
+            "type": "string",
+            "description": "Preço do produto com R$ (por isso é uma string)"
+          },
+          "category": {
+            "type": "string",
+            "description": "Categoria do produto"
           }
         }
       }
