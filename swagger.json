@@ -28,6 +28,14 @@
                   }
                 }
               }
+            },
+            "example": {
+              "id": "df6b70e7-516f-4b45-9f19-3609227fda79",
+              "position": 1,
+              "name": "Calça",
+              "grade": 4.5,
+              "price": 57.67,
+              "category": "Moda"
             }
           }
         }
@@ -54,8 +62,12 @@
                   "$ref": "#/components/schemas/RequestProduct"
                 },
                 "example": {
-                  "id": "abcd1234",
-                  "name": "Calça de Moletom"
+                  "id": "df6b70e7-516f-4b45-9f19-3609227fda79",
+                  "position": 1,
+                  "name": "Calça",
+                  "grade": 4.5,
+                  "price": 57.67,
+                  "category": "Moda"
                 }
               }
             }
@@ -88,6 +100,47 @@
                   }
                 }
               }
+            },
+            "example": [{
+              "id": "df6b70e7-516f-4b45-9f19-3609227fda79",
+              "position": 1,
+              "name": "Calça",
+              "grade": 4.5,
+              "price": 57.67,
+              "category": "Moda"
+            },
+            {
+              "id": "ef6b77b5-516f-4b45-9f19-3609227dde65",
+              "position": 2,
+              "name": "Camisa",
+              "grade": 4.7,
+              "price": "R$ 57.67",
+              "category": "Moda"
+            }]
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a especific product by the product ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "Numeric ID of the product to get."
+          }
+        ],
+        "description": "A product of database by product ID",
+        "responses": {
+          "200": {
+            "description": "A JSON object with deleted product info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestProduct"
+                }
+              }
             }
           }
         }
@@ -101,29 +154,29 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "ID do produto"
+            "description": "Product ID"
           },
           "name": {
             "type": "string",
-            "description": "Nome do produto"
+            "description": "Product name"
           },
           "position": {
             "type": "number",
-            "description": "Posição do produto no ranking dos mais vendidos"
+            "description": "Product position in the bestsellers ranking"
           },
           "grade": {
             "type": "number",
-            "description": "Nota média das avaliações do produto"
+            "description": "Average rating of the product reviews"
           },
           "price": {
             "type": "string",
-            "description": "Preço do produto com R$ (por isso é uma string)"
+            "description": "Product price in R$ (Brazilian Real), hence it is a string"
           },
           "category": {
             "type": "string",
-            "description": "Categoria do produto"
+            "description": "Product category"
           }
-        }
+        }        
       }
     }
   }
