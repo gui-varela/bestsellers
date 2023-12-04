@@ -46,3 +46,10 @@ Os produtos aparecerão no terminal prontos para serem usados.
 ### Populando o banco
 
 Não foi possível criar uma maneira automatizada de popular o banco de dados. Por isso, é necessário rodar o web scraper, copiar cada produto do terminal e criar um por um (através de Postman/Insomnia ou pela documentação)
+
+### Não uso do TypeScript
+
+Por algum motivo, ao aplicar o TypeScript ce ompilar as funções, apenas a função create funcionava. As demais funções geravam um erro que não trazia informações úteis.
+
+Na branch **refatorarCodigoParaTypescript** eu tentei fazer esse refactor de JS para TS, mas sem sucesso. Então deixei na main os códigos em JS que funcionavam.
+
