@@ -70,5 +70,5 @@ export const allProducts = (async () => {
 
     await browser.close()
 
-    return sections
+    return JSON.stringify(sections)
 })();
